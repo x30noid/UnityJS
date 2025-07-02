@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Unity WebGL Player | UnityJS</title>
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <link rel="stylesheet" href="TemplateData/style.css">
+    <script src="TemplateData/UnityProgress.js"></script>
+    <script src="Build/UnityLoader.js"></script>
+    <script>
+      var gameInstance = UnityLoader.instantiate("gameContainer", "Build/Build.json", {onProgress: UnityProgress});
+    </script>
+  </head>
+  <body>
+    <div class="webgl-content">
+      <div id="gameContainer" style="width: 960px; height: 600px"></div>
+      <div class="footer">
+        <div class="webgl-logo"></div>
+        <div class="fullscreen" onclick="gameInstance.SetFullscreen(1)"></div>
+        <div class="title">UnityJS</div>
+      </div>
+    </div>
+    <script>
+      function SceneFinishedLoading(SceneString) {
+        if(SceneString == "true")
+        {
+          //console.log('SceneString is Loaded:"' + SceneString + '"');
+
+          let url_string = (window.location.search);
+          let Params = new URLSearchParams(url_string);
+          let ProductCode = Params.get("productcode");
+          console.log(ProductCode);
+
+          gameInstance.SendMessage("GameManager", "SetValFromJS");
+
+          gameInstance.SendMessage("GameManager","SetValFromJSParam", ProductCode);
+
+        }
+        
+      };
+    </script>
+  </body>
+</html>
